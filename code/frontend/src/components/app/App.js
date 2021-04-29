@@ -10,8 +10,23 @@ function App() {
   useEffect(() => {
     const script = document.createElement("script");
 
-    script.src = "https://unpkg.com/ionicons@5.4.0/dist/ionicons.js";
+    script.src =
+      "https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js";
     script.async = true;
+    script.type = "module";
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+  useEffect(() => {
+    const script = document.createElement("script");
+
+    script.src = "https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js";
+    script.async = true;
+    script.noModule = "";
 
     document.body.appendChild(script);
 
