@@ -14,7 +14,7 @@
 }
 
 .Spinner::before {
-  content: '';
+  content: "";
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
@@ -32,8 +32,8 @@
 .Spinner.big::before {
   animation: spin-fast 1.5s linear infinite;
   border-color: #f68872 #f68872 #f68872 transparent;
-  width: 20px;
-  height: 20px;
+  width: 100px;
+  height: 100px;
 }
 
 .Spinner.small::before {
