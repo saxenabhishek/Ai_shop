@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import styles from "./ProductThumb.module.css";
 // import Ribbon from './Ribbon/Ribbon';
@@ -10,11 +10,19 @@ import Prices from "../../ui/Prices/Prices";
 // import PreloadLinkProduct from '../UI/PreloadLink/Product/Product';
 
 const ProductThumb = (props) => {
+  let thumbnail;
+  useEffect(() => {
+    fetch("/temp").then((res) => {
+      console.log("hi");
+      console.log(res);
+    });
+  }, []);
   console.log(props);
   const {
     item: { thumbnails, title, rating, price, ribbonType, oldPrice, id },
   } = props;
-
+  console.log(thumbnails);
+  console.log(Buffer.from(thumbnails));
   const {
     inWishlist,
     onAddToCart,
@@ -38,7 +46,7 @@ const ProductThumb = (props) => {
             />
           </PreloadLinkProduct> */}
           <img
-            src="logo192.png"
+            src={"data:image/png;base64," + thumbnails}
             alt={title}
             className={styles.Image}
             loadingClass={styles.LoadingImage}

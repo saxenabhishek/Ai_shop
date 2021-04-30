@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import spinner from "../../ui/spinner/Spinner";
+import Spinner from "../../ui/spinner/Spinner";
 // import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 
@@ -8,7 +8,7 @@ import spinner from "../../ui/spinner/Spinner";
 // import { LANDING as landingTitle } from '../../constants/titles';
 import ProductsList from "./productlist";
 const LandingPage = (props) => {
-  const [lists, setLists] = useState([0, 0]);
+  const [lists, setLists] = useState([null]);
   console.log(props);
   useEffect(() => {
     fetch("/api/prod")
@@ -18,8 +18,8 @@ const LandingPage = (props) => {
         setLists(result);
       });
   }, []);
-  if (lists == [0, 0]) {
-    return spinner;
+  if (lists[0] == null) {
+    return <Spinner type="big" />;
   } else {
     return (
       <div>
@@ -27,7 +27,6 @@ const LandingPage = (props) => {
           <title>LandingPage</title>
         </Helmet>
         <ProductsList lists={lists} />
-        <h2>landing page</h2>
       </div>
     );
   }
