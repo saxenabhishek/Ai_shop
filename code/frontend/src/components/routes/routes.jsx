@@ -1,20 +1,20 @@
-import { Route, Switch, withRouter } from 'react-router-dom';
-import * as ROUTES from './const';
-import LandingPage from '../pages/landing/landin'
+import { Route, Switch, withRouter } from "react-router-dom";
+import * as ROUTES from "./const";
+import LandingPage from "../pages/landing/landing";
 
-import React, { Suspense } from 'react';
+import React, { Suspense } from "react";
 
-export default ({location}) =>  {
-    console.log(location)
-    return(
+export default ({ location }) => {
+  console.log(location);
+  return (
     <Switch location={location}>
-    <Route
-      path={ROUTES.LANDING}
-      exact
-      component={LandingPage}
-      key="landing"
-    />
-    {/* <Route
+      <Route
+        path={ROUTES.LANDING}
+        exact
+        component={LandingPage}
+        key="landing"
+      />
+      {/* <Route
       path={`${ROUTES.ITEM}/:id`}
       component={LazyProductPage}
       key="product"
@@ -29,7 +29,7 @@ export default ({location}) =>  {
       component={LazyWishlistPage}
       key="wishlist"
     /> */}
-    {/* <Route component={LazyNotFoundPage} key="404" /> */}
-  </Switch>
-  ); 
+      {/* <Route component={LazyNotFoundPage} key="404" /> */}
+    </Switch>
+  );
 };
