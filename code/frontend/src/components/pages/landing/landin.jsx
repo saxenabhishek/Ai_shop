@@ -18,18 +18,19 @@ const LandingPage = (props) => {
         setLists(result);
       });
   }, []);
-  if (lists[0] == null) {
-    return <Spinner type="big" />;
-  } else {
-    return (
-      <div>
-        <Helmet defer={false}>
-          <title>LandingPage</title>
-        </Helmet>
+
+  return (
+    <div>
+      <Helmet defer={false}>
+        <title>LandingPage</title>
+      </Helmet>
+      {lists[0] == null ? (
         <ProductsList lists={lists} />
-      </div>
-    );
-  }
+      ) : (
+        <Spinner type="big" />
+      )}
+    </div>
+  );
 };
 
 // LandingPage.propTypes = {
