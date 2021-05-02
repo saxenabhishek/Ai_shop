@@ -37,8 +37,8 @@ function App() {
   return (
     <div>
       <Helmet
-        defaultTitle="ERA by deebov"
-        titleTemplate="%s | ERA by deebov"
+        defaultTitle="SHOP"
+        titleTemplate="%s | by team AI"
         defer={false}
       />
 

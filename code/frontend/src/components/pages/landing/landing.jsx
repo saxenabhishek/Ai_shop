@@ -7,24 +7,23 @@ import Spinner from "../../ui/spinner/Spinner";
 // import ProductsListWithTabs from '../../compositions/ProductsListWithTabs/ProductsListWithTabs';
 // import { LANDING as landingTitle } from '../../constants/titles';
 import ProductsList from "./productlist";
+
 const LandingPage = (props) => {
   const [lists, setLists] = useState([null]);
-  console.log(props);
+  console.log("from landing page", props);
   useEffect(() => {
     fetch("/api/prod")
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
         setLists(result);
       });
   }, []);
-
   return (
     <div>
       <Helmet defer={false}>
-        <title>LandingPage</title>
+        <title>Welcome</title>
       </Helmet>
-      {lists[0] == null ? (
+      {lists[0] != null ? (
         <ProductsList lists={lists} />
       ) : (
         <Spinner type="big" />
