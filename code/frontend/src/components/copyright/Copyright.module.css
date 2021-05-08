@@ -1,8 +1,13 @@
 .Container {
   display: flex;
+  position: fixed;
   align-items: center;
   justify-content: space-between;
-  margin: 50 50;
+  background-color: rgb(177, 177, 177);
+  /* margin: auto 0; */
+  bottom: 0px;
+  width: 100%;
+  padding: 10px;
   box-sizing: border-box !important;
 }
 
@@ -32,6 +37,8 @@
   margin-bottom: -7px;
 }
 
-.Links > *:not(:last-child) {
+a {
   margin-right: 10px;
+  /* text-decoration: none; */
+  color: black;
 }
