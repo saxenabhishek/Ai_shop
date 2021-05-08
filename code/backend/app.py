@@ -1,11 +1,15 @@
-from fastapi import FastAPI, Response
+from fastapi import FastAPI, Response, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-import time
 from PIL import Image
 import io
 import base64
 import random
+import uuid
+import redis
+from pydantic import BaseModel
+import json
 
+r = redis.Redis()
 app = FastAPI()
 
 origins = [
@@ -19,37 +23,42 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return "Works"
+    return "This route is not availible for use"
 
 
 @app.get("/temp")
-async def root():
-    im = Image.open("../../TestImages/2.jpg", mode="r")
-    img_byte_arr = io.BytesIO()
-    im.save(img_byte_arr, format="png")
-    img_byte_arr = img_byte_arr.getvalue()
-    return Response(content=img_byte_arr, media_type="image/png")
-    # return f"<img src = {img_byte_arr}></img>"
+async def root(token: str = "0"):
+    return "not in use"
+
+
+class logindeets(BaseModel):
+    username: str
+    password: str
+
+
+@app.post("/api/login")
+async def login(body: logindeets):
+    deets = r.hgetall(body.username)
+    if len(deets) != 0:
+        if deets[b"pass"].decode("utf-8") == body.password:
+            token = str(uuid.uuid4())
+            r.set(token, body.username, ex=900)
+            return {"token": token}
+        else:
+            raise HTTPException(status_code=401, detail="Wrong password")
+    else:
+        raise HTTPException(status_code=404, detail="User not found")
 
 
 @app.get("/api/prod")
-async def root():
-    responses = []
-    text = ["ONLY", "Zink London", "Kazo", "Twenty Dresses by Nykaa Fashion"]
-    for i in range(4):
-        im = Image.open("../../TestImages/" + str(i + 1) + ".jpg", mode="r")
-        img_byte_arr = io.BytesIO()
-        im.save(img_byte_arr, format="png")
-        img_byte_arr = img_byte_arr.getvalue()
-        base64_bytes = base64.b64encode(img_byte_arr)
-        responses.append(
-            {
-                "title": text[i],
-                "rating": random.randint(0, 5),
-                "price": random.randint(0, 5000),
-                "oldPrice": random.randint(0, 5000),
-                "thumbnails": base64_bytes,
-            }
-        )
+async def root(token: str = "0"):
+
+    user = r.get(token)
+    if user == None:
+        raise HTTPException(status_code=401, detail="Logged out")
+    r.expire(token, 900)
+    deets = r.hgetall(user)
+    p = r.keys("*:*")
+    prods = [json.loads(r.get(random.choice(p).decode("utf-8"))) for i in range(10)]
     # base64_message = base64_bytes.decode("ascii")
-    return responses
+    return prods
