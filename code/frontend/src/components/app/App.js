@@ -4,36 +4,29 @@ import { Helmet } from "react-helmet";
 import Layout from "../layout/Layout";
 import Routes from "../routes/routes";
 import { ToastContainer } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Tokenprovider from "../context/token";
 
 function App() {
-  useEffect(() => {
-    const script = document.createElement("script");
+  const [token, setToken] = useState();
 
-    script.src =
+  useEffect(() => {
+    const script1 = document.createElement("script");
+
+    script1.src =
       "https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js";
-    script.async = true;
-    script.type = "module";
+    script1.async = true;
+    script1.type = "module";
 
-    document.body.appendChild(script);
+    document.body.appendChild(script1);
+    const script2 = document.createElement("script");
 
-    return () => {
-      document.body.removeChild(script);
-    };
+    script2.src = "https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js";
+    script2.async = true;
+    script2.noModule = "";
+    document.body.appendChild(script2);
   }, []);
-  useEffect(() => {
-    const script = document.createElement("script");
 
-    script.src = "https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js";
-    script.async = true;
-    script.noModule = "";
-
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
   return (
     <div>
       <Helmet
@@ -44,9 +37,11 @@ function App() {
 
       {/* <Auth /> */}
 
-      <Layout>
-        <Routes />
-      </Layout>
+      <Tokenprovider>
+        <Layout>
+          <Routes />
+        </Layout>
+      </Tokenprovider>
 
       <ToastContainer />
 

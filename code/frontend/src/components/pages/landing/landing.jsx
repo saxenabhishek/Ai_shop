@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet";
 import Spinner from "../../ui/spinner/Spinner";
+import { tokencontext } from "../../context/token";
 // import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 
@@ -10,9 +11,10 @@ import ProductsList from "./productlist";
 
 const LandingPage = (props) => {
   const [lists, setLists] = useState([null]);
+  const cttoken = useContext(tokencontext);
   console.log("from landing page", props);
   useEffect(() => {
-    fetch("/api/prod")
+    fetch("/api/prod?token=" + cttoken.token)
       .then((res) => res.json())
       .then((result) => {
         setLists(result);
