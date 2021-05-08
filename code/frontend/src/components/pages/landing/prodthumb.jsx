@@ -10,28 +10,17 @@ import Prices from "../../ui/Prices/Prices";
 // import PreloadLinkProduct from '../UI/PreloadLink/Product/Product';
 
 const ProductThumb = (props) => {
-  let thumbnail;
-  useEffect(() => {
-    fetch("/temp").then((res) => {
-      console.log("hi");
-      console.log(res);
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetch("/temp").then((res) => {
+  //     console.log("hi");
+  //     console.log(res);
+  //   });
+  // }, []);
   console.log(props);
   const {
-    item: { thumbnails, title, rating, price, ribbonType, oldPrice, id },
+    item: { image, title, stars, price, lowpri },
   } = props;
-  console.log(thumbnails);
-  console.log(Buffer.from(thumbnails));
-  const {
-    inWishlist,
-    onAddToCart,
-    addingToCart,
-    inCart,
-    toggleWishlist,
-    togglingWishlist,
-  } = props;
-
+  console.log(image);
   return (
     <div className={styles.Product}>
       <div className={styles.ProductInner}>
@@ -46,7 +35,7 @@ const ProductThumb = (props) => {
             />
           </PreloadLinkProduct> */}
           <img
-            src={"data:image/png;base64," + thumbnails}
+            src={"https://ai-shop.s3.ap-south-1.amazonaws.com/" + image}
             alt={title}
             className={styles.Image}
             loadingClass={styles.LoadingImage}
@@ -63,8 +52,8 @@ const ProductThumb = (props) => {
         </div>
         <div className={styles.Details}>
           <h3 className={styles.Title}>{title}</h3>
-          <RatingStars rating={rating} />
-          <Prices price={price} oldPrice={oldPrice} />
+          <RatingStars rating={stars} />
+          <Prices price={price} oldPrice={lowpri} />
         </div>
       </div>
     </div>
